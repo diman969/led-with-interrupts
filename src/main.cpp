@@ -1,13 +1,14 @@
 #include <Arduino.h>
 #define LED_GPIO 19
 #define INTERRUPT_PIN 18
+//#define debugging
 
 bool ledState{};
 
-volatile int interruptCounter{};
+volatile byte interruptCounter{};
 int numberOfInterrupts{};
 
-long debouncingTime{100};
+short debouncingTime{500};
 volatile unsigned long last_micros{};
 
 portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
@@ -39,9 +40,10 @@ void loop() {
 
     digitalWrite(LED_GPIO, ledState);
     ledState = !ledState;
-
+    #ifdef debugging
     numberOfInterrupts++;
     Serial.print("Number of Interrupts is: ");
     Serial.println(numberOfInterrupts);
+    #endif
   }
 }
